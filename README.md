@@ -2,24 +2,157 @@
 
 Projeto Java (Maven) para implementar e avaliar a estrutura de dados `ArranjoOrdenado` para inteiros, com suporte a ordenacao crescente e decrescente.
 
-## Requisitos atendidos
-- Implementacao da classe `ArranjoOrdenadoModel` para inteiros.
-- Ordenacao crescente e decrescente.
-- Testes unitarios com JUnit 5.
-- Experimento de insercao e exclusao com 100 execucoes por cenario.
-- Calculo de media e desvio padrao.
-- Extra: comparacao de algoritmos de insercao (linear x binaria).
-- Extra: teste de Wilcoxon pareado.
-- Geracao de resultados tabulados em CSV e Markdown.
+## Diagrama de Classes (UML)
 
-## Estrutura do projeto
-- `src/main/java/br/edu/faculdade/arranjo/model`: modelos de dominio (`...Model`).
-- `src/main/java/br/edu/faculdade/arranjo/services`: regras de negocio/execucao (`...Service`).
-- `src/main/java/br/edu/faculdade/arranjo/enums`: enumeracoes (`...Enum`).
-- `src/main/java/br/edu/faculdade/arranjo/dto`: estruturas de transferencia (`...Dto`).
-- `src/test/java/...`: testes unitarios.
-- `resultados/`: saidas do experimento.
-- `apresentacao/roteiro.md`: roteiro para os slides.
+```mermaid
+classDiagram
+    %% Enums
+    class EstrategiaInsercaoEnum {
+        <<enumeration>>
+        LINEAR
+        BINARIA
+    }
+
+    class OperacaoExperimentoEnum {
+        <<enumeration>>
+        INSERCAO
+        EXCLUSAO
+    }
+
+    class TipoEntradaEnum {
+        <<enumeration>>
+        CRESCENTE
+        DECRESCENTE
+        ALEATORIA
+    }
+
+    class TipoOrdenacaoEnum {
+        <<enumeration>>
+        CRESCENTE
+        DECRESCENTE
+    }
+
+    %% Models
+    class ArranjoOrdenadoModel {
+        -int[] dados
+        -int tamanho
+        -TipoOrdenacaoEnum tipoOrdenacao
+        -EstrategiaInsercaoEnum estrategiaInsercao
+        +inserir(int valor): void
+        +excluir(int valor): boolean
+        +buscar(int valor): boolean
+        +tamanho(): int
+        +capacidade(): int
+        +estaVazio(): boolean
+        +estaCheio(): boolean
+        +toArray(): int[]
+        +getTipoOrdenacao(): TipoOrdenacaoEnum
+    }
+
+    class CenarioExperimentoModel {
+        <<record>>
+        +OperacaoExperimentoEnum operacao
+        +TipoOrdenacaoEnum ordenacao
+        +TipoEntradaEnum entrada
+        +EstrategiaInsercaoEnum estrategiaInsercao
+        +id(): String
+    }
+
+    %% DTOs
+    class LinhaBrutaDto {
+        <<record>>
+        +int execucao
+        +CenarioExperimentoModel cenario
+        +long tempoNs
+        +long seed
+    }
+
+    class ResultadoResumoDto {
+        <<record>>
+        +CenarioExperimentoModel cenario
+        +long media
+        +double desvioPadrao
+        +int execucoes
+        +mediaMaisMenosDesvio(): String
+    }
+
+    class ResultadoWilcoxonDto {
+        <<record>>
+        +OperacaoExperimentoEnum operacao
+        +TipoOrdenacaoEnum ordenacao
+        +TipoEntradaEnum entrada
+        +double estatistica
+        +double pValor
+        +int tamanhoAmostra
+    }
+
+    class WilcoxonResultadoDto {
+        <<record>>
+        +double estatistica
+        +double pValor
+        +int tamanhoAmostra
+    }
+
+    %% Services
+    class EstatisticasService {
+        <<service>>
+        +media(long[]): long
+        +desvioPadrao(long[]): double
+        +wilcoxonPareado(long[], long[]): WilcoxonResultadoDto
+        ~toDoubleArray(long[]): double[]
+    }
+
+    class GeradorEntradasService {
+        <<service>>
+        +gerar(TipoEntradaEnum, int, Random): int[]
+    }
+
+    class ExportadorResultadosService {
+        <<service>>
+        +exportarBruto(Path, List): void
+        +exportarResumoCsv(Path, List): void
+        +exportarWilcoxonCsv(Path, List): void
+        +exportarTabelaMarkdown(Path, Map): void
+    }
+
+    class ExperimentoInsercaoExclusaoService {
+        <<service>>
+        +main(String[]): void
+        -executarCenario(...): long[]
+        -gerarResumos(Map): List
+        -gerarWilcoxon(Map, Config): List
+    }
+
+    %% Relacionamentos
+    ArranjoOrdenadoModel --> TipoOrdenacaoEnum
+    ArranjoOrdenadoModel --> EstrategiaInsercaoEnum
+
+    CenarioExperimentoModel --> OperacaoExperimentoEnum
+    CenarioExperimentoModel --> TipoOrdenacaoEnum
+    CenarioExperimentoModel --> TipoEntradaEnum
+    CenarioExperimentoModel --> EstrategiaInsercaoEnum
+
+    LinhaBrutaDto --> CenarioExperimentoModel
+    ResultadoResumoDto --> CenarioExperimentoModel
+    ResultadoWilcoxonDto --> OperacaoExperimentoEnum
+    ResultadoWilcoxonDto --> TipoOrdenacaoEnum
+    ResultadoWilcoxonDto --> TipoEntradaEnum
+
+    EstatisticasService --> WilcoxonResultadoDto
+    GeradorEntradasService --> TipoEntradaEnum
+    ExportadorResultadosService --> LinhaBrutaDto
+    ExportadorResultadosService --> ResultadoResumoDto
+    ExportadorResultadosService --> ResultadoWilcoxonDto
+
+    ExperimentoInsercaoExclusaoService --> GeradorEntradasService
+    ExperimentoInsercaoExclusaoService --> ExportadorResultadosService
+    ExperimentoInsercaoExclusaoService --> EstatisticasService
+    ExperimentoInsercaoExclusaoService --> ArranjoOrdenadoModel
+    ExperimentoInsercaoExclusaoService --> CenarioExperimentoModel
+    ExperimentoInsercaoExclusaoService --> LinhaBrutaDto
+    ExperimentoInsercaoExclusaoService --> ResultadoResumoDto
+    ExperimentoInsercaoExclusaoService --> ResultadoWilcoxonDto
+```
 
 ## Como executar
 ### 1. Rodar testes unitarios
@@ -61,32 +194,3 @@ Exemplo de tabulacao:
 | Insercao em maneira crescente | 10 +/- 0.3434 | 10 +/- 0.3434 |
 | Insercao em maneira decrescente | 10 +/- 0.3434 | 10 +/- 0.3434 |
 | Insercao em maneira aleatoria | 10 +/- 0.3434 | 10 +/- 0.3434 |
-
-## UML simplificada da classe principal
-```text
-+--------------------------------------------------+
-| ArranjoOrdenadoModel                             |
-+--------------------------------------------------+
-| - dados: int[]                                   |
-| - tamanho: int                                   |
-| - tipoOrdenacao: TipoOrdenacaoEnum               |
-| - estrategiaInsercao: EstrategiaInsercaoEnum     |
-+--------------------------------------------------+
-| + inserir(valor: int): void                      |
-| + excluir(valor: int): boolean                   |
-| + buscar(valor: int): boolean                    |
-| + tamanho(): int                                 |
-| + capacidade(): int                              |
-| + estaVazio(): boolean                           |
-| + estaCheio(): boolean                           |
-| + toArray(): int[]                               |
-+--------------------------------------------------+
-```
-
-## Checklist de entrega
-- [ ] Publicar repositorio no GitHub.
-- [ ] Incluir codigo da estrutura e experimento.
-- [ ] Incluir testes unitarios.
-- [ ] Incluir resultados em `resultados/`.
-- [ ] Incluir apresentacao (ou arquivo final de slides).
-- [ ] Entregar link do repositorio na ferramenta.

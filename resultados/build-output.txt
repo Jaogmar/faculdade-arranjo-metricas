@@ -1,0 +1,58 @@
+[INFO] Scanning for projects...                                                 
+[INFO]                                                                          
+[INFO] -------------< br.edu.faculdade:faculdade-classe-arranjo >--------------
+[INFO] Building faculdade-classe-arranjo 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]--------------------------------- 
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.13.0/maven-compiler-plugin-3.13.0.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.13.0/maven-compiler-plugin-3.13.0.pom (10 kB at 11 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/41/maven-plugins-41.pom (7.4 kB at 31 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.13.0/maven-compiler-plugin-3.13.0.jar
+Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-compiler-plugin/3.13.0/maven-compiler-plugin-3.13.0.jar (83 kB at 172 kB/s)
+[INFO] 
+njo ---
+[INFO] skip non existing resourceDirectory D:\git\faculdade\faculdade-arranjo-metricas\src\main\resources
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ faculdade-classe-arranjo ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 14 source files with javac [debug target 17] to target\classes
+[WARNING] system modules path not set in conjunction with -source 17
+[INFO]
+[INFO] --- exec:3.2.0:java (default-cli) @ faculdade-classe-arranjo ---
+Iniciando experimento com parametros:
+capacidade=100000
+execucoes=100
+seedBase=20260316
+incluirComparacaoBinaria=true
+Finalizado cenario: INSERCAO__CRESCENTE__CRESCENTE__LINEAR
+Finalizado cenario: INSERCAO__CRESCENTE__CRESCENTE__BINARIA
+Finalizado cenario: INSERCAO__CRESCENTE__DECRESCENTE__LINEAR
+Finalizado cenario: INSERCAO__CRESCENTE__DECRESCENTE__BINARIA
+Finalizado cenario: INSERCAO__CRESCENTE__ALEATORIA__LINEAR
+Finalizado cenario: INSERCAO__CRESCENTE__ALEATORIA__BINARIA
+Finalizado cenario: INSERCAO__DECRESCENTE__CRESCENTE__LINEAR
+Finalizado cenario: INSERCAO__DECRESCENTE__CRESCENTE__BINARIA
+Finalizado cenario: INSERCAO__DECRESCENTE__DECRESCENTE__LINEAR
+Finalizado cenario: INSERCAO__DECRESCENTE__DECRESCENTE__BINARIA
+Finalizado cenario: INSERCAO__DECRESCENTE__ALEATORIA__LINEAR
+Finalizado cenario: INSERCAO__DECRESCENTE__ALEATORIA__BINARIA
+Finalizado cenario: EXCLUSAO__CRESCENTE__CRESCENTE__LINEAR
+Finalizado cenario: EXCLUSAO__CRESCENTE__CRESCENTE__BINARIA
+Finalizado cenario: EXCLUSAO__CRESCENTE__DECRESCENTE__LINEAR
+Finalizado cenario: EXCLUSAO__CRESCENTE__DECRESCENTE__BINARIA
+Finalizado cenario: EXCLUSAO__CRESCENTE__ALEATORIA__LINEAR
+Finalizado cenario: EXCLUSAO__CRESCENTE__ALEATORIA__BINARIA
+Finalizado cenario: EXCLUSAO__DECRESCENTE__CRESCENTE__LINEAR
+Finalizado cenario: EXCLUSAO__DECRESCENTE__CRESCENTE__BINARIA
+Finalizado cenario: EXCLUSAO__DECRESCENTE__DECRESCENTE__LINEAR
+Finalizado cenario: EXCLUSAO__DECRESCENTE__DECRESCENTE__BINARIA
+Finalizado cenario: EXCLUSAO__DECRESCENTE__ALEATORIA__LINEAR
+Finalizado cenario: EXCLUSAO__DECRESCENTE__ALEATORIA__BINARIA
+Arquivos gerados em: D:\git\faculdade\faculdade-arranjo-metricas\resultados
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:31 h
+[INFO] Finished at: 2026-03-16T23:27:43-03:00
+[INFO] ------------------------------------------------------------------------
